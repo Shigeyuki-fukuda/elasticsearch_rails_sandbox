@@ -1,24 +1,33 @@
-# README
+# Dockerの設定
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## 起動
 
-Things you may want to cover:
+```bach
+$ docker-compose up -d
+```
 
-* Ruby version
+## 注意点
 
-* System dependencies
+- docker-compose.ymlの以下の部分とdatabase.ymlの該当項目は揃えないとDBに接続出来ないので注意すること
 
-* Configuration
+```docker-compose.yml
+version: '3'
+services:
+  postgresql:
+  <中略>
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: mysecretpassword1234
+``````
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+```config/database.yml
+default: &default
+  default: &default
+    adapter: postgresql
+    port: 5432
+    username: postgres
+    password: mysecretpassword1234
+    host: 127.0.0.1
+    encoding: unicode
+    pool: 5
+```
