@@ -1,6 +1,10 @@
 class MangasController < ApplicationController
   def index
-    @mangas = query.present? ? Manga.search(query).records : Manga.all
+    @mangas = if query.present?
+                Manga.search(query).page(params[:page] || 1).per(5).records
+              else
+                Manga.page(params[:page] || 1).per(5)
+              end
   end
 
   private
