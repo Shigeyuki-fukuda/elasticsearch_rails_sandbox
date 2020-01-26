@@ -67,4 +67,12 @@ RSpec.configure do |config|
       Manga.create_index!
     end
   end
+
+  # テストデータの呼び出しをFactoryBot.create(:◯◯) → create(:◯◯)に簡略化
+  config.include FactoryBot::Syntax::Methods
+  # springを使用してrspecを動かしているとfactoryで作成したデータが正しく読み込まれないことがあるので
+  # 毎回全てのexample実行前にfactory_botを再読込させる
+  config.before :all do
+    FactoryBot.reload
+  end
 end
