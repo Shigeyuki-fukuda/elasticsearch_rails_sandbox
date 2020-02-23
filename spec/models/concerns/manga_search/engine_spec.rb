@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe MangaSearchable, elasticsearch: true do
+RSpec.describe MangaSearch::Engine, elasticsearch: true do
   describe 'Manga.search' do
     describe '検索ワードにマッチする漫画の検索' do
       let!(:manga_1) do

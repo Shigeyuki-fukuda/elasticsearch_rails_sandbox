@@ -1,5 +1,5 @@
 class Manga < ApplicationRecord
-  include MangaSearchable
+  include MangaSearch::Engine
 
   belongs_to :author
   belongs_to :publisher
