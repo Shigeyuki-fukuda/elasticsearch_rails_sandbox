@@ -11,12 +11,12 @@ module MangaSearch
       # マッピング情報
       settings do
         mappings dynamic: 'false' do
-          indexes :id,                   type: 'integer'
-          indexes :publisher,            type: 'keyword'
-          indexes :author,               type: 'keyword'
-          indexes :category,             type: 'text', analyzer: 'kuromoji'
-          indexes :title,                type: 'text', analyzer: 'kuromoji'
-          indexes :description,          type: 'text', analyzer: 'kuromoji'
+          indexes :id,          type: 'integer'
+          indexes :publisher,   type: 'keyword'
+          indexes :author,      type: 'keyword'
+          indexes :category,    type: 'text', analyzer: 'kuromoji'
+          indexes :title,       type: 'text', analyzer: 'kuromoji'
+          indexes :description, type: 'text', analyzer: 'kuromoji'
         end
       end
 
