@@ -1,33 +1,22 @@
-# Dockerの設定
+# このリポジトリをクローンしてローカルで動かす場合
+
+- Railsコンソール上で以下を実行し、Elasticsearchでの検索に必要なデータをインポートすること。
+
+```ruby
+$ Manga.create_index!Manga.create_index!
+$ Manga.__elasticsearch__.import
+```
+
+# Docker
 
 ## 起動
 
-```bach
+```bash
 $ docker-compose up -d
 ```
 
-## 注意点
+## 停止
 
-- docker-compose.ymlの以下の部分とdatabase.ymlの該当項目は揃えないとDBに接続出来ないので注意すること
-
-```docker-compose.yml
-version: '3'
-services:
-  postgresql:
-  <中略>
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: mysecretpassword1234
-``````
-
-```config/database.yml
-default: &default
-  default: &default
-    adapter: postgresql
-    port: 5432
-    username: postgres
-    password: mysecretpassword1234
-    host: 127.0.0.1
-    encoding: unicode
-    pool: 5
+```bash
+$ docker-compose stop
 ```
