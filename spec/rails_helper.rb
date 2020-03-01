@@ -63,8 +63,10 @@ RSpec.configure do |config|
 
   # elasticsearchのテストの場合のみIndexを作成する
   config.before :each do |example|
-    if example.metadata[:elasticsearch]
-      Manga.create_index!
+    if example.metadata[:elasticsearch] && example.metadata[:model_name]
+      # meta情報のモデル名の文字列をクラス定数に変換し、Elasticsearchのindexを作成する
+      class_constant = example.metadata[:model_name].classify.constantize
+      class_constant.create_index!
     end
   end
 
