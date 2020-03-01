@@ -1,4 +1,3 @@
-
 FactoryBot.define do
   factory :manga do
     association :category, factory: :category
