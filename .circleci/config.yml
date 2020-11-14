@@ -1,0 +1,62 @@
+# Ruby CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-ruby/ for more details
+#
+version: 2
+defaults: &defaults
+  working_directory: ~/elasticsearch_rails_sandbox_app
+  docker:
+    # specify the version you desire here
+    - image: circleci/ruby:2.6.5
+      environment:
+        RAILS_ENV: test
+        TZ: /usr/share/zoneinfo/Asia/Tokyo
+        BUNDLE_PATH: vendor/bundle
+        BUNDLE_BIN: vendor/bin
+        BUNDLE_APP_CONFIG: vendor/config
+        BUNDLER_VERSION: 2.1.4
+    - image: postgres:12
+      environment:
+        - POSTGRES_USER: postgres
+        - POSTGRES_PASSWORD: elasticsearch_rails_sandbox_password
+        - PGDATA: /dev/shm/pgdata/data
+jobs:
+  build:
+    <<: *defaults
+    steps:
+      - checkout
+      - run: gem install bundler -v $BUNDLER_VERSION
+      - run: bundle install
+      - persist_to_workspace:
+          root: ~/elasticsearch_rails_sandbox_app
+          paths:
+            - ./*
+  rspec:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/elasticsearch_rails_sandbox_app
+      - run:
+          name: install dependencies
+          command: |
+            bundle install --jobs=4 --retry=3
+      # Database setup
+      - run:
+          name: Database setup
+          command: |
+            bundle exec rake db:create RAILS_ENV=test
+            bundle exec rake db:schema:load RAILS_ENV=test
+      - run:
+          name: Run RSpec
+          command: |
+            mkdir /tmp/test-results
+            TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)"
+            bundle exec rspec
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build
+      - rspec:
+          requires:
+            - build
