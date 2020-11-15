@@ -7,7 +7,7 @@ defaults: &defaults
   working_directory: ~/elasticsearch_rails_sandbox_app
   docker:
     # specify the version you desire here
-    - image: circleci/ruby:2.6.5
+    - image: circleci/ruby:2.7.1
       environment:
         RAILS_ENV: test
         TZ: /usr/share/zoneinfo/Asia/Tokyo
